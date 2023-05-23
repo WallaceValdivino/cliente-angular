@@ -7,12 +7,22 @@
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" formControlName="name" class="form-control" id="name" placeholder="name@example.com">
+        <div *ngIf="submitted && name.invalid">
+          <small class="text-danger">NOME INVALIDO!</small>
+        </div>
+
       </div>
+
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" formControlName="email" class="form-control" id="email" placeholder="name@example.com">
+        <div *ngIf="submitted && email.invalid">
+          <small class="text-danger">EMAIL INVALIDO!</small>
+        </div>
       </div>
+
+
 
       <div>
         <button class="btn btn-primary" (click)="save()">Salvar</button>
