@@ -16,19 +16,13 @@ import { Validators } from '@angular/forms';
 })
 export class ClientsComponent implements OnInit {
   Clients: Client[] = [];
-isEditing : boolean = false;
-  formGroupClient: FormGroup;
-  submitted : boolean = false;
+  Client: Client = {} as Client;
+  isEditing : boolean = false;
 
-  constructor(
-    private ClientService: ClientService,
-    private formsBuilder: FormBuilder
-  ) {
-    this.formGroupClient = formsBuilder.group({
-      id: [''],
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-    });
+
+
+  constructor(private ClientService: ClientService) {
+
   }
 
   ngOnInit(): void {
@@ -41,39 +35,33 @@ isEditing : boolean = false;
     });
   }
 
-  save() {
-    this.submitted = true;
-
-    if(this.formGroupClient.valid){
-
+  onSaveEvent(client: Client) {
       if(this.isEditing){
-        this.ClientService.edit(this.formGroupClient.value).subscribe({
+        this.ClientService.edit(client).subscribe({
       next: () =>{
         this.loadClients();
-        this.formGroupClient.reset();
         this.isEditing = false;
-        this.submitted = false
       }
-        })
+        }
+
+        )
       }
       else{
 
 
-          this.ClientService.save(this.formGroupClient.value).subscribe(
+          this.ClientService.save(client).subscribe(
             {
               next: data =>{ this.Clients.push(data);
-              this.formGroupClient.reset();
-              this.submitted = false
               }
             }
           )
         }
-    }
+
 
 }
 
   edit(Client : Client){
-this.formGroupClient.setValue(Client);
+this.Client = Client;
 this.isEditing = true;
   }
 
@@ -84,18 +72,8 @@ this.isEditing = true;
     })
   }
 
-  clean(){
-    this.formGroupClient.reset();
-this.isEditing = false;
-this.submitted = false;
-  }
 
-  get name() : any{
-return this.formGroupClient.get("name");
-  }
 
-  get email() : any{
-    return this.formGroupClient.get("email");
-      }
+
 }
 
