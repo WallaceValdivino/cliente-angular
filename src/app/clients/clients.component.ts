@@ -34,7 +34,10 @@ export class ClientsComponent implements OnInit {
       next: (data) => (this.Clients = data),
     });
   }
+  onCleanEvent() {
+this.isEditing = false;
 
+  }
   onSaveEvent(client: Client) {
       if(this.isEditing){
         this.ClientService.edit(client).subscribe({

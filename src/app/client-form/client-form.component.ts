@@ -20,6 +20,9 @@ export class ClientFormComponent implements OnChanges {
 
   @Output()
   saveEvent = new EventEmitter<Client>();
+
+  @Output()
+  cleanEvent = new EventEmitter<void>();
   formGroupClient: FormGroup;
   submitted: boolean = false;
   isEditing : boolean = false;
@@ -36,15 +39,14 @@ export class ClientFormComponent implements OnChanges {
 
   save() {
     this.submitted = true;
-    if (this.formGroupClient.valid && this.isEditing == true) {
+    if (this.formGroupClient.valid) {
       this.saveEvent.emit(this.formGroupClient.value);
       this.formGroupClient.reset();
       this.submitted = false;
-      this.isEditing = false;
     }
   }
   clean() {
-    this.isEditing = false;
+    this.cleanEvent.emit();
     this.formGroupClient.reset();
     this.submitted = false;
 
